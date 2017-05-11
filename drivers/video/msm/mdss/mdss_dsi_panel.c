@@ -33,6 +33,10 @@
 #include <linux/powersuspend.h>
 #endif
 
+#ifdef CONFIG_STATE_NOTIFIER
+#include <linux/state_notifier.h>
+#endif
+
 #define DT_CMD_HDR 6
 #define MIN_REFRESH_RATE 48
 #define DEFAULT_MDP_TRANSFER_TIME 14000
@@ -888,6 +892,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ndx=%d\n", __func__, ctrl->ndx);
 
+	#ifdef CONFIG_STATE_NOTIFIER
+	       state_resume();
+	#endif
+
 	if (pinfo->dcs_cmd_by_left) {
 		if (ctrl->ndx != DSI_CTRL_LEFT)
 			goto end;
@@ -1018,6 +1026,10 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
 
+	#ifdef CONFIG_STATE_NOTIFIER
+	       state_suspend();
+	#endif
+
 	if (pinfo->dcs_cmd_by_left) {
 		if (ctrl->ndx != DSI_CTRL_LEFT)
 			goto end;
@@ -1063,6 +1075,12 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 		mdss_dsi_panel_set_idle_mode(pdata, true);
 	else
 		mdss_dsi_panel_set_idle_mode(pdata, false);
+
+        #ifdef CONFIG_STATE_NOTIFIER
+	if (enable)
+	   state_suspend();
+        #endif
+
 	pr_debug("%s:-\n", __func__);
 	return 0;
 }
