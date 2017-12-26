@@ -5664,7 +5664,7 @@ static int rerun_apsd(struct smbchg_chip *chip)
 		reinit_completion(&chip->usbin_uv_lowered);
 		reinit_completion(&chip->src_det_lowered);
 		reinit_completion(&chip->usbin_uv_raised);
-	if (rerun_usb_insertion < 2)
+		if (rerun_usb_insertion < 2)
 		rerun_usb_insertion++;
 
 		/* re-run APSD */

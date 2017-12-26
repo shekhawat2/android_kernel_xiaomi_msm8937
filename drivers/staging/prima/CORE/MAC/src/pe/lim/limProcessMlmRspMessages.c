@@ -4882,8 +4882,8 @@ limHandleDelBssInReAssocContext(tpAniSirGlobal pMac, tpDphHashNode pStaDs,tpPESe
               psessionEntry->pLimReAssocReq->bssDescription.length),
               pBeaconStruct);
             if(pMac->lim.gLimProtectionControl != WNI_CFG_FORCE_POLICY_PROTECTION_DISABLE)
-                limDecideStaProtectionOnAssoc(pMac, pBeaconStruct, psessionEntry);
-                if(pBeaconStruct->erpPresent) {
+            limDecideStaProtectionOnAssoc(pMac, pBeaconStruct, psessionEntry);
+            if(pBeaconStruct->erpPresent) {
                 if (pBeaconStruct->erpIEInfo.barkerPreambleMode)
                     psessionEntry->beaconParams.fShortPreamble = 0;
                 else

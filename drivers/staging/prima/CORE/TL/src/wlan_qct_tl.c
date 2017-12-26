@@ -11774,10 +11774,10 @@ WLAN_TLAPGetNextTxIds
   ++ucNextSTA;
 
   if ( WLAN_MAX_STA_COUNT <= ucNextSTA )
-    ucNextSTA = 0;
+  ucNextSTA = 0;
 
-    isServed = FALSE;
-    if ( 0 == pTLCb->ucCurLeftWeight )
+  isServed = FALSE;
+  if ( 0 == pTLCb->ucCurLeftWeight )
     {
       //current prioirty is done
       if ( WLANTL_AC_BK == (WLANTL_ACEnumType)pTLCb->uCurServedAC )
