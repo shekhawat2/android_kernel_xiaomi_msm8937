@@ -1,0 +1,91 @@
+# SPECTRUM KERNEL MANAGER
+# Ramdisk file for profile based kernel management
+# Implimentation inspired by Franco's fku profiles
+# ARB Profiles
+
+# Initialization
+on property:sys.boot_completed=1
+   # Set default profile on first boot
+   exec u:r:init:s0 root root -- /init.spectrum.sh
+   exec u:r:su:s0 root root -- /init.spectrum.sh
+   # Enable Spectrum support
+
+
+   setprop spectrum.support 1
+
+
+   # Add kernel name
+   setprop persist.spectrum.kernel KCUFKernel
+
+# Common
+    write /sys/module/msm_thermal/core_control/core_control 0
+    write /proc/sys/kernel/sched_small_task 65
+    write /proc/sys/kernel/sched_mostly_idle_load 25
+    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_freq 960000
+    write /proc/sys/kernel/sched_mostly_idle_nr_run 4
+    write /proc/sys/kernel/sched_upmigrate_min_nice 8
+    write /proc/sys/kernel/sched_upmigrate 98
+    write /proc/sys/kernel/sched_downmigrate 80
+
+    write /sys/devices/platform/kcal_ctrl.0/kcal_min 33
+    write /sys/devices/platform/kcal_ctrl.0/kcal_sat 273
+    write /sys/devices/platform/kcal_ctrl.0/kcal_val 252
+    write /sys/devices/platform/kcal_ctrl.0/kcal_cont 258
+
+# Balance (default profile)
+on property:persist.spectrum.profile=0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
+
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 345600
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "40000 691200:50000 960000:60000 1209600:70000 13440000:80000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 111
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 400000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads "70 691200:75 960000:80 1209600:90 1344000:95"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/fast_ramp_down 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack 20000
+
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay "40000 768000:50000 998400:70000"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 111
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "70 768000:80 998400:90"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/fast_ramp_down 1
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack 20000
+
+    # Enable core control
+    write /sys/devices/system/cpu/cpu0/core_ctl/disable 0
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 0
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 90
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 77
+    write /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms 500
+    write /sys/devices/system/cpu/cpu0/core_ctl/online_delay_ms 800
+    write /sys/devices/system/cpu/cpu0/core_ctl/task_thres 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/is_big_cluster 1
+    write /sys/devices/system/cpu/cpu0/core_ctl/not_preferred 1
+
+    chown system:system /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+    chown system:system /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+    chown system:system /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+    chown system:system /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+
+    write /sys/module/adreno_idler/parameters/adreno_idler_active 1
+    write /sys/kernel/sched/arch_power 1
+    write /sys/module/state_notifier/parameters/enabled Y
+
+# Performance
+on property:persist.spectrum.profile=1
+
+# Battery
+on property:persist.spectrum.profile=2
+
+# Gaming
+on property:persist.spectrum.profile=3
