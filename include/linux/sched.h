@@ -1349,9 +1349,7 @@ struct task_struct {
 	u64 last_wake_ts;
 	u64 last_switch_out_ts;
 	u64 last_cpu_selected_ts;
-#ifdef CONFIG_SCHED_QHMP
 	u64 run_start;
-#endif
 	struct related_thread_group *grp;
 	struct list_head grp_list;
 	u64 cpu_cycles;
@@ -2028,13 +2026,11 @@ struct sched_load {
 	unsigned long predicted_load;
 };
 
-#if defined(CONFIG_SCHED_QHMP) || !defined(CONFIG_SCHED_HMP)
+#if defined(CONFIG_SCHED_HMP)
 static inline int sched_update_freq_max_load(const cpumask_t *cpumask)
 {
 	return 0;
 }
-#else
-int sched_update_freq_max_load(const cpumask_t *cpumask);
 #endif
 
 #if defined(CONFIG_SCHED_FREQ_INPUT)
@@ -2255,7 +2251,6 @@ extern void sched_set_cluster_dstate(const cpumask_t *cluster_cpus, int dstate,
 				int wakeup_energy, int wakeup_latency);
 extern void sched_update_cpu_freq_min_max(const cpumask_t *cpus, u32 fmin, u32
 					  fmax);
-#ifdef CONFIG_SCHED_QHMP
 extern int sched_set_cpu_prefer_idle(int cpu, int prefer_idle);
 extern int sched_get_cpu_prefer_idle(int cpu);
 extern int sched_set_cpu_mostly_idle_load(int cpu, int mostly_idle_pct);
@@ -2265,7 +2260,6 @@ extern int sched_get_cpu_mostly_idle_nr_run(int cpu);
 extern int
 sched_set_cpu_mostly_idle_freq(int cpu, unsigned int mostly_idle_freq);
 extern unsigned int sched_get_cpu_mostly_idle_freq(int cpu);
-#endif
 
 #else
 static inline int sched_set_boost(int enable)
