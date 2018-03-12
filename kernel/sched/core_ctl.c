@@ -72,6 +72,7 @@ static void apply_need(struct cpu_data *f);
 static void wake_up_hotplug_thread(struct cpu_data *state);
 static void add_to_pending_lru(struct cpu_data *state);
 static void update_lru(struct cpu_data *state);
+static void __ref cpu_online_wrapper(int cpu);
 
 /* ========================= sysfs interface =========================== */
 
@@ -362,6 +363,12 @@ static ssize_t store_disable(struct cpu_data *state,
 	if (!state->disabled)
 		wake_up_hotplug_thread(state);
 
+        if (state->disabled)
+            {
+                int cpu;
+                for_each_possible_cpu(cpu)
+                    cpu_online_wrapper(cpu);
+            }
 
 	return count;
 }
@@ -729,6 +736,13 @@ static int core_ctl_offline_core(unsigned int cpu)
 	}
 	unlock_device_hotplug();
 	return ret;
+}
+
+static void __ref cpu_online_wrapper(int cpu)
+{
+        if (!cpu_online(cpu)) {
+                cpu_up(cpu);
+        }
 }
 
 static void update_lru(struct cpu_data *f)
