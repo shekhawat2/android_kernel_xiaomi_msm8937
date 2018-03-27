@@ -340,7 +340,6 @@ static struct ctl_table kern_table[] = {
 		.mode           = 0644,
 		.proc_handler   = sched_window_update_handler,
 	},
-#ifdef CONFIG_SCHED_QHMP
 	{
 		.procname	= "sched_small_task",
 		.data		= &sysctl_sched_small_task_pct,
@@ -396,7 +395,6 @@ static struct ctl_table kern_table[] = {
 		.proc_handler   = sched_window_update_handler,
 	},
 #endif
-#endif
 	{
 		.procname	= "sched_spill_load",
 		.data		= &sysctl_sched_spill_load_pct,
@@ -440,94 +438,6 @@ static struct ctl_table kern_table[] = {
 		.mode		= 0644,
 		.proc_handler	= sched_hmp_proc_update_handler,
 	},
-#ifndef CONFIG_SCHED_QHMP
-	{
-		.procname	= "sched_select_prev_cpu_us",
-		.data		= &sysctl_sched_select_prev_cpu_us,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler   = sched_hmp_proc_update_handler,
-	},
-	{
-		.procname       = "sched_enable_colocation",
-		.data           = &sysctl_sched_enable_colocation,
-		.maxlen         = sizeof(unsigned int),
-		.mode           = 0644,
-		.proc_handler   = proc_dointvec,
-		.extra1		= &zero,
-		.extra2		= &one,
-	},
-	{
-		.procname	= "sched_restrict_cluster_spill",
-		.data		= &sysctl_sched_restrict_cluster_spill,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec_minmax,
-		.extra1		= &zero,
-		.extra2		= &one,
-	},
-	{
-		.procname	= "sched_small_wakee_task_load",
-		.data		= &sysctl_sched_small_wakee_task_load_pct,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler   = sched_hmp_proc_update_handler,
-	},
-	{
-		.procname	= "sched_big_waker_task_load",
-		.data		= &sysctl_sched_big_waker_task_load_pct,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler   = sched_hmp_proc_update_handler,
-	},
-	{
-		.procname       = "sched_enable_thread_grouping",
-		.data           = &sysctl_sched_enable_thread_grouping,
-		.maxlen         = sizeof(unsigned int),
-		.mode           = 0644,
-		.proc_handler   = proc_dointvec,
-	},
-	{
-		.procname	= "sched_prefer_sync_wakee_to_waker",
-		.data		= &sysctl_sched_prefer_sync_wakee_to_waker,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec_minmax,
-		.extra1		= &zero,
-		.extra2		= &one,
-	},
-#ifdef CONFIG_SCHED_FREQ_INPUT
-	{
-		.procname       = "sched_new_task_windows",
-		.data           = &sysctl_sched_new_task_windows,
-		.maxlen         = sizeof(unsigned int),
-		.mode           = 0644,
-		.proc_handler   = sched_window_update_handler,
-	},
-	{
-		.procname	= "sched_pred_alert_freq",
-		.data		= &sysctl_sched_pred_alert_freq,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler	= proc_dointvec_minmax,
-		.extra1		= &zero,
-	},
-	{
-		.procname       = "sched_freq_aggregate",
-		.data           = &sysctl_sched_freq_aggregate,
-		.maxlen         = sizeof(unsigned int),
-		.mode           = 0644,
-		.proc_handler   = sched_window_update_handler,
-	},
-	{
-		.procname	= "sched_freq_aggregate_threshold",
-		.data		= &sysctl_sched_freq_aggregate_threshold_pct,
-		.maxlen		= sizeof(unsigned int),
-		.mode		= 0644,
-		.proc_handler	= sched_hmp_proc_update_handler,
-	},
-#endif
-#endif
 	{
 		.procname	= "sched_boost",
 		.data		= &sysctl_sched_boost,
@@ -696,7 +606,6 @@ static struct ctl_table kern_table[] = {
 	},
 #endif
 #ifdef CONFIG_SCHEDSTATS
-#ifdef CONFIG_SCHED_QHMP
 	{
 		.procname	= "sched_latency_panic_threshold_us",
 		.data		= &sysctl_sched_latency_panic_threshold,
@@ -716,7 +625,6 @@ static struct ctl_table kern_table[] = {
 		.mode		= 0644,
 		.proc_handler	= sched_max_latency_sysctl,
 	},
-#endif
 #endif
 #ifdef CONFIG_PROVE_LOCKING
 	{
