@@ -1,0 +1,51 @@
+on property:sys.boot_completed=1
+
+# Common
+    write /sys/module/msm_thermal/core_control/enabled 0
+    write /proc/sys/kernel/sched_small_task 40
+    write /proc/sys/kernel/sched_upmigrate_min_nice 8
+    write /proc/sys/kernel/sched_upmigrate 98
+    write /proc/sys/kernel/sched_downmigrate 80
+
+    write /sys/devices/platform/kcal_ctrl.0/kcal_min 33
+    write /sys/devices/platform/kcal_ctrl.0/kcal_sat 273
+    write /sys/devices/platform/kcal_ctrl.0/kcal_val 252
+    write /sys/devices/platform/kcal_ctrl.0/kcal_cont 258
+
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu5/online 1
+    write /sys/devices/system/cpu/cpu6/online 1
+    write /sys/devices/system/cpu/cpu7/online 1
+
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
+
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "40000 691200:50000 960000:60000 1209600:70000 13440000:80000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 111
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 400000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads "80 691200:85 960000:90 1209600:95 1344000:95"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/fast_ramp_down 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack 20000
+
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay "40000 902400:50000 998400:70000"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 111
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "70 768000:80 998400:90"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/fast_ramp_down 1
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack 20000
+
+    write /sys/module/adreno_idler/parameters/adreno_idler_active 1
+    write /sys/module/state_notifier/parameters/enabled Y
